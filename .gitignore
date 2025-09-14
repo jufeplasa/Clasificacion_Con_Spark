@@ -1,1 +1,5 @@
 .vscode
+artifacts
+build
+
+spark_logs.txt
