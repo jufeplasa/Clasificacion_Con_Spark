@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.ml.feature import StringIndexer, OneHotEncoder
 from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.classification import LogisticRegression
 from pyspark.ml import Pipeline
 from pyspark.sql.functions import col
 
@@ -38,6 +39,21 @@ encoders = [
 ]
 
 assembler = VectorAssembler(
-    inputsCols = numeric_columns + [ column + "_encoded" for column in categorical_columns],
+    inputCols = numeric_columns + [ column + "_encoded" for column in categorical_columns],
     outputCol = "features"
 )
+
+pipeline = Pipeline(stages = indexers + encoders + [assembler])
+model = pipeline.fit(df)
+df_transformed = model.transform(df)
+df_transformed = df_transformed.select("features", col("label_index").alias("label"))
+
+
+print("=== DATOS FINALES LISTOS PARA MODELO ===")
+df_transformed.show(5, truncate=False)
+
+lr = LogisticRegression(featuresCol='features', labelCol='label')
+lr_model = lr.fit(df_transformed)
+
+predictions = lr_model.transform(df_transformed)
+predictions.select('features', 'label', 'prediction', 'probability').show(5)
