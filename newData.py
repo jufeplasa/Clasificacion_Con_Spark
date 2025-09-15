@@ -1,0 +1,22 @@
+nuevos_datos = [
+    [45, "Male", "Private", 200000, "HS-grad", 40],
+    [32, "Female", "Gov", 180000, "Bachelors", 35],
+    [55, "Male", "Private", 350000, "Masters", 50],
+    [28, "Female", "Private", 120000, "Some-college", 45],
+    [60, "Male", "Gov", 400000, "Doctorate", 60],
+    [22, "Male", "Private", 90000, "HS-grad", 30],
+    [38, "Female", "Private", 220000, "Bachelors", 42],
+    [50, "Male", "Gov", 320000, "Masters", 55],
+    [26, "Female", "Private", 110000, "Some-college", 38],
+    [65, "Male", "Private", 380000, "Doctorate", 25],
+    [29, "Male", "Gov", 150000, "Bachelors", 48],
+    [42, "Female", "Private", 250000, "Masters", 37],
+    [35, "Male", "Private", 190000, "HS-grad", 52],
+    [47, "Female", "Gov", 280000, "Bachelors", 32],
+    [31, "Male", "Private", 170000, "Some-college", 44],
+    [58, "Female", "Gov", 360000, "Masters", 28],
+    [24, "Male", "Private", 95000, "HS-grad", 35],
+    [52, "Male", "Private", 310000, "Doctorate", 58],
+    [36, "Female", "Gov", 210000, "Bachelors", 40],
+    [43, "Male", "Private", 230000, "Masters", 47]
+]

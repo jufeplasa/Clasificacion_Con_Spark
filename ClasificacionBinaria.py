@@ -5,7 +5,9 @@ from pyspark.ml.classification import LogisticRegression
 from pyspark.ml import Pipeline
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
 from pyspark.sql.functions import col
-
+from newData import nuevos_datos
+import pandas as pd
+ 
 spark = SparkSession.builder \
     .master("local") \
     .appName("Clasificacion_Binaria") \
@@ -96,3 +98,37 @@ df_transformed.groupBy("prediction").count().show()
 df_transformed.groupBy("label").count().show()
 
 
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType
+from pyspark.sql import Row
+
+
+# Esquema para los nuevos datos
+schema = StructType([
+    StructField("age", IntegerType(), True),
+    StructField("sex", StringType(), True),
+    StructField("workclass", StringType(), True),
+    StructField("fnlwgt", IntegerType(), True),
+    StructField("education", StringType(), True),
+    StructField("hours_per_week", IntegerType(), True)
+])
+
+# Crear DataFrame con nuevos datos
+nuevos_df = spark.createDataFrame([Row(*fila) for fila in nuevos_datos], schema)
+
+# Hacer predicciones
+predicciones_nuevas = model.transform(nuevos_df)
+
+# Mostrar resultados
+print("=== PREDICCIONES PARA NUEVOS DATOS ===")
+predicciones_nuevas.select(
+    "age", "sex", "workclass", "education", "hours_per_week",
+    "prediction", "probability"
+).show(truncate=False)
+
+pdf = predicciones_nuevas.select(
+    "age", "sex", "workclass", "education", "hours_per_week",
+    "prediction", "probability"
+).toPandas()
+
+pdf.to_csv("predicciones_nuevas.csv", index=False)
+print("Predicciones guardadas en predicciones_nuevas.csv")
